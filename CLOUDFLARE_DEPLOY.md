@@ -2,7 +2,7 @@
 
 ## Recommended: GitHub + Cloudflare Pages
 
-1. Create a new GitHub repository, for example `space-adventure-game`.
+1. Use the GitHub repository `kooyou/space-adventure-game`.
 2. Upload only the files inside this `SpaceAdventure` folder, or set this folder as the Pages root directory if using a monorepo.
 3. In Cloudflare Dashboard, open **Workers & Pages**.
 4. Choose **Create application**.
@@ -15,7 +15,7 @@
 Framework preset: None
 Build command: leave blank
 Build output directory: /
-Root directory: SpaceAdventure   # only if the repo root is "New project"
+Root directory: leave blank
 ```
 
 9. Deploy.
@@ -46,8 +46,8 @@ _headers
 
 After the Pages project works:
 
-1. Add your custom domain in Cloudflare Pages.
-2. Replace every `https://example.com` in `sitemap.xml` with your real domain.
+1. Add `yapiyapi.fun` as the custom domain in Cloudflare Pages.
+2. Confirm every sitemap URL uses `https://yapiyapi.fun`.
 3. Keep `robots.txt` pointing to `/sitemap.xml`.
 
 ## Before Google Ads

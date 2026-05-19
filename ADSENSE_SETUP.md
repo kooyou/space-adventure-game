@@ -4,7 +4,7 @@ This site is child-directed. Do not add live Google ad code until every item bel
 
 ## Required Before Public Launch
 
-1. Replace `https://example.com` in `sitemap.xml` with the final production domain.
+1. Confirm `sitemap.xml` uses the final production domain `https://yapiyapi.fun`.
 2. Add the final business/operator mailing address to `privacy.html`.
 3. Get the real AdSense publisher ID, for example `pub-1234567890123456`.
 4. Create `ads.txt` at the site root using the real publisher ID:

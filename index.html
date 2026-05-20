@@ -5,10 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="YapiYapi Fun is a child-friendly collection of simple web games for kids, starting with Space Adventure."
+      content="YapiYapi Fun is a child-friendly collection of simple no-login web games for kids, starting with the space learning game Space Adventure."
     />
+    <link rel="canonical" href="https://yapiyapi.fun/" />
+    <meta property="og:site_name" content="YapiYapi Fun" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="YapiYapi Fun - Kids Web Games" />
+    <meta
+      property="og:description"
+      content="Simple browser games for kids with playful science, space, and AI learning."
+    />
+    <meta property="og:url" content="https://yapiyapi.fun/" />
+    <meta name="twitter:card" content="summary" />
     <title>YapiYapi Fun - Kids Web Games</title>
-    <link rel="stylesheet" href="./styles.css?v=yapi-home-v1" />
+    <link rel="stylesheet" href="./styles.css?v=yapi-home-v3" />
   </head>
   <body>
     <main class="home-app">
@@ -18,6 +28,7 @@
           <span>YapiYapi Fun</span>
         </a>
         <nav class="home-nav" aria-label="Site navigation">
+          <a href="./space-adventure.html">Play</a>
           <a href="./parents.html">Parents</a>
           <a href="./privacy.html">Privacy</a>
           <a href="./ads.html">Ads</a>
@@ -31,6 +42,15 @@
           A growing collection of simple browser games for young children. No login, no chat,
           no downloads, and no child profile.
         </p>
+        <div class="hero-actions" aria-label="Featured actions">
+          <a class="primary-play" href="./space-adventure.html">Play Space Adventure</a>
+          <a class="secondary-play" href="./parents.html">Parent guide</a>
+        </div>
+        <div class="home-stats" aria-label="Site highlights">
+          <span><strong>30</strong> space levels</span>
+          <span><strong>0</strong> logins needed</span>
+          <span><strong>4-8</strong> target age</span>
+        </div>
       </section>
 
       <section class="game-gallery" aria-label="Game collection">
@@ -42,9 +62,10 @@
             <span class="tile-meteor"></span>
           </span>
           <span class="tile-body">
-            <span class="tile-kicker">Ages 4-8 · Space + AI</span>
+            <span class="tile-kicker">Ages 4-8 / Space + AI</span>
             <strong>Space Adventure</strong>
             <span>Launch a rocket, clear meteors, collect star fuel, and unlock planet knowledge cards.</span>
+            <span class="tile-badge">Ready to play</span>
           </span>
         </a>
 
@@ -54,6 +75,7 @@
             <span class="tile-kicker">Coming next</span>
             <strong>Ocean Rescue</strong>
             <span>Help sea friends sort trash and learn simple recycling ideas.</span>
+            <span class="tile-badge muted-badge">In design</span>
           </span>
         </article>
 
@@ -63,6 +85,7 @@
             <span class="tile-kicker">Coming next</span>
             <strong>Rainbow Garden</strong>
             <span>Grow flowers, match colors, and learn gentle pattern thinking.</span>
+            <span class="tile-badge muted-badge">In design</span>
           </span>
         </article>
       </section>

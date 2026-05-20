@@ -18,7 +18,47 @@
     <meta property="og:url" content="https://yapiyapi.fun/" />
     <meta name="twitter:card" content="summary" />
     <title>YapiYapi Fun - Kids Web Games</title>
-    <link rel="stylesheet" href="./styles.css?v=yapi-home-v7" />
+    <link rel="stylesheet" href="./styles.css?v=yapi-home-v8" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "YapiYapi Fun",
+        "url": "https://yapiyapi.fun/",
+        "description": "A child-friendly collection of no-login browser games for kids.",
+        "inLanguage": "en",
+        "publisher": {
+          "@type": "Organization",
+          "name": "YapiYapi Fun"
+        },
+        "hasPart": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "Space Adventure",
+            "applicationCategory": "GameApplication",
+            "operatingSystem": "Web browser",
+            "url": "https://yapiyapi.fun/space-adventure.html",
+            "audience": {
+              "@type": "PeopleAudience",
+              "suggestedMinAge": 4,
+              "suggestedMaxAge": 8
+            }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "Solar System Doodle",
+            "applicationCategory": "GameApplication",
+            "operatingSystem": "Web browser",
+            "url": "https://yapiyapi.fun/solar-system/",
+            "audience": {
+              "@type": "PeopleAudience",
+              "suggestedMinAge": 6,
+              "suggestedMaxAge": 12
+            }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <main class="home-app">
@@ -128,8 +168,22 @@
         </article>
       </section>
 
+      <section class="home-trust" aria-labelledby="trustTitle">
+        <div>
+          <p class="eyebrow">Parent-friendly by design</p>
+          <h2 id="trustTitle">Built for small tests before big promotion.</h2>
+        </div>
+        <ul>
+          <li>No login, chat, upload, camera, microphone, or in-game purchase.</li>
+          <li>Two playable learning games are live, with one more concept in design.</li>
+          <li>Policy pages explain privacy, ads, parent guidance, and contact details.</li>
+          <li>Ad placements should stay outside active gameplay and use child-directed treatment where required.</li>
+        </ul>
+      </section>
+
       <nav class="legal-links" aria-label="Site policies">
         <a class="text-link" href="./space-adventure.html">Space Adventure</a>
+        <a class="text-link" href="./solar-system/">Solar System Doodle</a>
         <a class="text-link" href="./parents.html">Parents</a>
         <a class="text-link" href="./privacy.html">Privacy Policy</a>
         <a class="text-link" href="./ads.html">Advertising</a>

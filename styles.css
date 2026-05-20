@@ -22,15 +22,17 @@
 html,
 body {
   min-height: 100%;
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
   color: var(--ink);
   background:
-    radial-gradient(circle at 12% 16%, rgb(80 180 255 / 22%) 0 12%, transparent 26%),
-    radial-gradient(circle at 86% 12%, rgb(255 117 200 / 20%) 0 10%, transparent 25%),
-    linear-gradient(160deg, #050720 0%, #08143b 48%, #180c3b 100%);
+    radial-gradient(circle at 14% 12%, rgb(72 240 255 / 18%) 0 9%, transparent 24%),
+    radial-gradient(circle at 88% 10%, rgb(255 117 200 / 18%) 0 11%, transparent 26%),
+    radial-gradient(circle at 50% 100%, rgb(78 161 255 / 20%) 0 16%, transparent 36%),
+    linear-gradient(160deg, #06091f 0%, #0b1740 48%, #24103f 100%);
 }
 
 button,
@@ -63,9 +65,9 @@ a:focus-visible {
 }
 
 .home-app {
-  width: min(1120px, calc(100% - 28px));
+  width: min(1160px, calc(100% - 28px));
   margin: 0 auto;
-  padding: 22px 0 34px;
+  padding: 28px 0 34px;
 }
 
 .home-header {
@@ -73,7 +75,7 @@ a:focus-visible {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 14px 0 24px;
+  padding: 8px 0 34px;
 }
 
 .home-brand,
@@ -111,19 +113,36 @@ a:focus-visible {
   border: 2px solid rgb(255 255 255 / 16%);
   border-radius: 999px;
   padding: 9px 13px;
-  background: rgb(255 255 255 / 8%);
+  background: rgb(255 255 255 / 7%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 12%);
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.home-nav a:hover {
+  background: rgb(255 255 255 / 13%);
+  transform: translateY(-2px);
 }
 
 .home-hero {
-  max-width: 760px;
-  padding: 38px 0 26px;
+  min-height: 430px;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.72fr);
+  align-items: center;
+  gap: 42px;
+  padding: 34px 0 42px;
+}
+
+.home-hero-copy {
+  max-width: 680px;
+  min-width: 0;
 }
 
 .home-hero h1 {
   margin: 0 0 14px;
   color: #fff;
-  font-size: clamp(44px, 8vw, 84px);
-  line-height: 0.94;
+  font-size: clamp(48px, 7vw, 82px);
+  line-height: 0.96;
+  letter-spacing: -0.02em;
 }
 
 .home-hero p {
@@ -132,6 +151,145 @@ a:focus-visible {
   font-size: 20px;
   font-weight: 900;
   line-height: 1.4;
+}
+
+.home-hero-scene {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 360px;
+  overflow: hidden;
+  border: 2px solid rgb(255 255 255 / 14%);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 72% 20%, rgb(255 229 109 / 20%) 0 9%, transparent 25%),
+    radial-gradient(circle at 20% 22%, rgb(72 240 255 / 18%) 0 12%, transparent 29%),
+    linear-gradient(180deg, #08164e 0%, #0a1036 100%);
+  box-shadow: 0 22px 60px rgb(0 0 0 / 28%);
+}
+
+.home-hero-scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, #fff 0 1.2px, transparent 2px),
+    radial-gradient(circle, #ffe878 0 1px, transparent 2px),
+    radial-gradient(circle, #75e9ff 0 1.2px, transparent 2px);
+  background-position: 20px 40px, 90px 72px, 150px 22px;
+  background-size: 92px 82px, 124px 104px, 160px 122px;
+  opacity: 0.82;
+}
+
+.hero-orbit {
+  position: absolute;
+  right: 30px;
+  top: 42px;
+  width: 220px;
+  height: 110px;
+  border: 2px dashed rgb(255 255 255 / 20%);
+  border-radius: 50%;
+  transform: rotate(-18deg);
+}
+
+.hero-planet {
+  position: absolute;
+  right: 44px;
+  top: 78px;
+  width: 124px;
+  height: 124px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 26% 25%, rgb(255 255 255 / 86%) 0 9%, transparent 10%),
+    radial-gradient(circle at 69% 29%, #d1b8ff 0 12%, transparent 13%),
+    radial-gradient(circle at 64% 70%, #8972d5 0 16%, transparent 17%),
+    linear-gradient(135deg, #f5eaff, #c8a8ff 52%, #7660c8);
+  box-shadow: 0 0 42px rgb(200 168 255 / 46%);
+}
+
+.hero-rocket {
+  position: absolute;
+  left: 72px;
+  bottom: 70px;
+  width: 78px;
+  height: 154px;
+  border-radius: 50% 50% 22px 22px;
+  background:
+    radial-gradient(circle at 50% 34%, #61dfff 0 11%, #14205e 12% 20%, transparent 21%),
+    linear-gradient(180deg, #ff2f73 0 24%, #fff0df 25% 76%, #ff6ba6 77% 100%);
+  box-shadow: 0 0 28px rgb(255 117 200 / 30%);
+  transform: rotate(-21deg);
+}
+
+.hero-rocket::before,
+.tile-rocket::before {
+  content: "";
+  position: absolute;
+  left: -18%;
+  right: -18%;
+  bottom: -44px;
+  height: 64px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 50% 0%, #fff7a6 0 16%, #ff9b30 17% 42%, #5c4cff 43% 72%, transparent 73%);
+  filter: blur(0.2px) drop-shadow(0 0 16px rgb(255 154 48 / 66%));
+}
+
+.hero-rocket::after {
+  content: none;
+}
+
+.hero-meteor {
+  position: absolute;
+  right: 146px;
+  bottom: 82px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 24%, #ab91c9 0 13%, transparent 14%),
+    radial-gradient(circle at 66% 62%, #120d20 0 17%, transparent 18%),
+    radial-gradient(circle at 44% 68%, #382a56 0 11%, transparent 12%),
+    linear-gradient(135deg, #6a5486, #171225);
+  box-shadow:
+    38px -17px 0 -22px #fff4a0,
+    56px -26px 0 -28px #ff944d,
+    0 0 30px rgb(255 148 77 / 50%);
+}
+
+.hero-star {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: #fff18a;
+  clip-path: polygon(50% 0, 61% 36%, 100% 50%, 61% 64%, 50% 100%, 39% 64%, 0 50%, 39% 36%);
+  filter: drop-shadow(0 0 14px rgb(255 241 138 / 80%));
+}
+
+.hero-star.one {
+  left: 44%;
+  top: 25%;
+}
+
+.hero-star.two {
+  right: 20%;
+  bottom: 20%;
+  width: 16px;
+  height: 16px;
+}
+
+.section-heading {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 34px;
+  line-height: 1;
 }
 
 .game-gallery,
@@ -149,13 +307,15 @@ a:focus-visible {
   border: 2px solid rgb(255 255 255 / 16%);
   border-radius: 8px;
   color: var(--ink);
-  background: rgb(8 16 45 / 72%);
-  box-shadow: 0 18px 42px rgb(0 0 0 / 24%);
+  background: rgb(8 16 45 / 76%);
+  box-shadow: 0 18px 42px rgb(0 0 0 / 24%), inset 0 1px 0 rgb(255 255 255 / 8%);
   text-decoration: none;
-  transition: transform 0.18s ease;
+  transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .game-tile:hover {
+  border-color: rgb(143 246 255 / 54%);
+  box-shadow: 0 24px 54px rgb(0 0 0 / 34%), 0 0 34px rgb(72 240 255 / 12%);
   transform: translateY(-4px);
 }
 
@@ -222,24 +382,140 @@ a:focus-visible {
     radial-gradient(circle at 35% 30%, #a48cbb 0 14%, transparent 15%),
     radial-gradient(circle at 64% 66%, #171225 0 18%, transparent 19%),
     linear-gradient(135deg, #5f4a78, #171225);
-  box-shadow: 38px -14px 0 -18px #ff944d, 54px -24px 0 -26px #ffe56d, 0 0 24px rgb(255 100 50 / 48%);
+  box-shadow:
+    36px -14px 0 -20px #fff4a0,
+    52px -24px 0 -26px #ff944d,
+    0 0 24px rgb(255 100 50 / 48%);
 }
 
 .ocean-art {
-  background: linear-gradient(180deg, #72dfff 0%, #1761c6 100%);
+  background: linear-gradient(180deg, #81e5ff 0%, #2270d8 54%, #083b89 100%);
+}
+
+.ocean-sun,
+.garden-sun {
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #fff18a;
+  box-shadow: 0 0 30px rgb(255 241 138 / 62%);
+}
+
+.ocean-sun {
+  right: 40px;
+  top: 32px;
+}
+
+.garden-sun {
+  left: 38px;
+  top: 28px;
 }
 
 .garden-art {
-  background: linear-gradient(180deg, #9df4ff 0%, #5cff9a 100%);
+  background: linear-gradient(180deg, #97edff 0%, #83eab0 62%, #38b86d 100%);
 }
 
-.ocean-art span,
-.garden-art span {
+.ocean-wave,
+.garden-hill {
   position: absolute;
-  inset: auto 30px 34px;
-  height: 96px;
+  left: -10%;
+  right: -10%;
   border-radius: 50%;
-  background: rgb(255 255 255 / 28%);
+}
+
+.ocean-wave {
+  height: 94px;
+  background: rgb(255 255 255 / 24%);
+}
+
+.wave-a {
+  bottom: 36px;
+}
+
+.wave-b {
+  bottom: -8px;
+  background: rgb(15 62 151 / 46%);
+}
+
+.ocean-fish {
+  position: absolute;
+  left: 38%;
+  top: 48%;
+  width: 78px;
+  height: 46px;
+  border-radius: 52% 48% 48% 52%;
+  background: linear-gradient(135deg, #fff18a, #ff75c8);
+  box-shadow: 0 0 22px rgb(255 117 200 / 32%);
+}
+
+.ocean-fish::after {
+  content: "";
+  position: absolute;
+  right: -22px;
+  top: 8px;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 28px solid #ff75c8;
+}
+
+.ocean-bubble {
+  position: absolute;
+  border: 3px solid rgb(255 255 255 / 64%);
+  border-radius: 50%;
+}
+
+.bubble-a {
+  left: 22%;
+  top: 28%;
+  width: 24px;
+  height: 24px;
+}
+
+.bubble-b {
+  right: 24%;
+  top: 40%;
+  width: 15px;
+  height: 15px;
+}
+
+.garden-hill {
+  bottom: -30px;
+  height: 120px;
+  background: rgb(255 255 255 / 24%);
+}
+
+.garden-flower {
+  position: absolute;
+  bottom: 54px;
+  width: 78px;
+  height: 78px;
+  background: #ff75c8;
+  clip-path: polygon(50% 0, 64% 32%, 100% 28%, 72% 52%, 82% 88%, 50% 68%, 18% 88%, 28% 52%, 0 28%, 36% 32%);
+  filter: drop-shadow(0 0 18px rgb(255 117 200 / 46%));
+}
+
+.flower-a {
+  left: 28%;
+}
+
+.flower-b {
+  right: 22%;
+  width: 58px;
+  height: 58px;
+  background: #fff18a;
+}
+
+.garden-rainbow {
+  position: absolute;
+  left: 26%;
+  top: 34px;
+  width: 170px;
+  height: 86px;
+  border: 14px solid #ff75c8;
+  border-bottom: 0;
+  border-radius: 120px 120px 0 0;
+  box-shadow: inset 0 12px 0 #fff18a, inset 0 25px 0 #48f0ff;
 }
 
 .tile-body {
@@ -284,18 +560,18 @@ a:focus-visible {
 }
 
 .coming-soon {
-  opacity: 0.76;
+  opacity: 0.9;
 }
 
 .home-info {
-  margin: 18px 0;
+  margin: 20px 0 18px;
 }
 
 .home-info article {
-  border: 2px solid rgb(255 255 255 / 14%);
+  border: 1px solid rgb(255 255 255 / 12%);
   border-radius: 8px;
-  padding: 16px;
-  background: rgb(255 255 255 / 8%);
+  padding: 18px;
+  background: rgb(255 255 255 / 6%);
 }
 
 .home-info h2 {
@@ -306,6 +582,19 @@ a:focus-visible {
   margin: 0;
   color: #d6e9ff;
   font-weight: 800;
+}
+
+.info-icon {
+  display: inline-grid;
+  min-width: 38px;
+  height: 28px;
+  place-items: center;
+  border-radius: 999px;
+  margin-bottom: 12px;
+  color: #07102d;
+  background: #8ff6ff;
+  font-size: 13px;
+  font-weight: 900;
 }
 
 .game-app {
@@ -1810,6 +2099,23 @@ a:focus-visible {
     flex-direction: column;
   }
 
+  .home-nav {
+    gap: 10px;
+  }
+
+  .home-nav a {
+    padding: 8px 11px;
+  }
+
+  .home-hero {
+    min-height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .home-hero-scene {
+    min-height: 300px;
+  }
+
   .home-hero h1 {
     font-size: 44px;
   }
@@ -1884,20 +2190,42 @@ a:focus-visible {
 
   .home-hero {
     max-width: calc(100vw - 28px);
+    width: 100%;
+    gap: 22px;
     padding-top: 28px;
   }
 
   .home-hero h1 {
     max-width: calc(100vw - 28px);
-    font-size: 26px;
+    font-size: 36px;
     line-height: 1;
     overflow-wrap: break-word;
     white-space: normal;
   }
 
   .home-hero p {
-    max-width: calc(100vw - 28px);
-    font-size: 15px;
+    max-width: 34ch;
+    font-size: 14px;
+    overflow-wrap: break-word;
+  }
+
+  .home-hero-scene {
+    justify-self: start;
+    width: 88vw;
+    max-width: 100%;
+    min-height: 260px;
+  }
+
+  .hero-planet {
+    right: 18px;
+  }
+
+  .hero-meteor {
+    right: 112px;
+  }
+
+  .section-heading h2 {
+    font-size: 28px;
   }
 
   .game-app {

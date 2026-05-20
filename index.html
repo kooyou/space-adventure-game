@@ -18,7 +18,7 @@
     <meta property="og:url" content="https://yapiyapi.fun/" />
     <meta name="twitter:card" content="summary" />
     <title>YapiYapi Fun - Kids Web Games</title>
-    <link rel="stylesheet" href="./styles.css?v=yapi-home-v4" />
+    <link rel="stylesheet" href="./styles.css?v=yapi-home-v6" />
   </head>
   <body>
     <main class="home-app">
@@ -36,15 +36,30 @@
       </header>
 
       <section class="home-hero" aria-labelledby="homeTitle">
-        <p class="eyebrow">Tiny games. Big curiosity.</p>
-        <h1 id="homeTitle">Playful web games for kids to explore, learn, and laugh.</h1>
-        <p>
-          A growing collection of simple browser games for young children. No login, no chat,
-          no downloads, and no child profile.
-        </p>
+        <div class="home-hero-copy">
+          <p class="eyebrow">Tiny games. Big curiosity.</p>
+          <h1 id="homeTitle">Little web games for curious kids.</h1>
+          <p>
+            YapiYapi Fun is a growing shelf of simple browser games for young children.
+            No login, no chat, no downloads, and no child profile.
+          </p>
+        </div>
+        <div class="home-hero-scene" aria-hidden="true">
+          <span class="hero-orbit"></span>
+          <span class="hero-star one"></span>
+          <span class="hero-star two"></span>
+          <span class="hero-planet"></span>
+          <span class="hero-rocket"></span>
+          <span class="hero-meteor"></span>
+        </div>
       </section>
 
       <section id="games" class="game-gallery" aria-label="Game collection">
+        <div class="section-heading">
+          <p class="eyebrow">Game shelf</p>
+          <h2>Pick a tiny adventure</h2>
+        </div>
+
         <a class="game-tile featured-tile" href="./space-adventure.html">
           <span class="tile-art space-art" aria-hidden="true">
             <span class="tile-stars"></span>
@@ -61,7 +76,14 @@
         </a>
 
         <article class="game-tile coming-soon">
-          <span class="tile-art ocean-art" aria-hidden="true"><span></span></span>
+          <span class="tile-art ocean-art" aria-hidden="true">
+            <span class="ocean-sun"></span>
+            <span class="ocean-wave wave-a"></span>
+            <span class="ocean-wave wave-b"></span>
+            <span class="ocean-fish"></span>
+            <span class="ocean-bubble bubble-a"></span>
+            <span class="ocean-bubble bubble-b"></span>
+          </span>
           <span class="tile-body">
             <span class="tile-kicker">Coming next</span>
             <strong>Ocean Rescue</strong>
@@ -71,7 +93,13 @@
         </article>
 
         <article class="game-tile coming-soon">
-          <span class="tile-art garden-art" aria-hidden="true"><span></span></span>
+          <span class="tile-art garden-art" aria-hidden="true">
+            <span class="garden-sun"></span>
+            <span class="garden-hill"></span>
+            <span class="garden-flower flower-a"></span>
+            <span class="garden-flower flower-b"></span>
+            <span class="garden-rainbow"></span>
+          </span>
           <span class="tile-body">
             <span class="tile-kicker">Coming next</span>
             <strong>Rainbow Garden</strong>
@@ -83,14 +111,17 @@
 
       <section class="home-info">
         <article>
+          <span class="info-icon">01</span>
           <h2>Made For Kids</h2>
           <p>Simple controls, large targets, short rounds, and no social features.</p>
         </article>
         <article>
+          <span class="info-icon">02</span>
           <h2>Learning Built In</h2>
           <p>Games teach observation, science facts, and friendly AI concepts through play.</p>
         </article>
         <article>
+          <span class="info-icon">03</span>
           <h2>Ad Care</h2>
           <p>Ads, when enabled, must stay separate from gameplay and be child-directed where required.</p>
         </article>

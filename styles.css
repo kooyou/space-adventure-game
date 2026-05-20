@@ -134,60 +134,6 @@ a:focus-visible {
   line-height: 1.4;
 }
 
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 24px;
-}
-
-.primary-play,
-.secondary-play {
-  display: inline-flex;
-  align-items: center;
-  min-height: 50px;
-  border-radius: 999px;
-  padding: 0 18px;
-  font-weight: 900;
-  text-decoration: none;
-}
-
-.primary-play {
-  color: #07102d;
-  background: linear-gradient(180deg, #fff68d, #ffb44c);
-  box-shadow: 0 10px 24px rgb(255 180 76 / 28%);
-}
-
-.secondary-play {
-  border: 2px solid rgb(255 255 255 / 18%);
-  color: var(--ink);
-  background: rgb(255 255 255 / 9%);
-}
-
-.home-stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  max-width: 640px;
-  margin-top: 20px;
-}
-
-.home-stats span {
-  border: 2px solid rgb(255 255 255 / 12%);
-  border-radius: 8px;
-  padding: 12px;
-  color: #d6e9ff;
-  background: rgb(255 255 255 / 7%);
-  font-weight: 900;
-}
-
-.home-stats strong {
-  display: block;
-  color: #fff;
-  font-size: 26px;
-  line-height: 1;
-}
-
 .game-gallery,
 .home-info {
   display: grid;
@@ -1873,10 +1819,6 @@ a:focus-visible {
     grid-template-columns: 1fr;
   }
 
-  .home-stats {
-    grid-template-columns: 1fr;
-  }
-
   .game-screen {
     grid-template-rows: auto minmax(520px, 1fr) auto;
   }
@@ -1956,12 +1898,6 @@ a:focus-visible {
   .home-hero p {
     max-width: calc(100vw - 28px);
     font-size: 15px;
-  }
-
-  .primary-play,
-  .secondary-play {
-    min-height: 48px;
-    padding: 0 15px;
   }
 
   .game-app {

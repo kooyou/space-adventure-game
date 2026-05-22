@@ -1,8 +1,8 @@
 # YapiYapi Fun
 
-YapiYapi Fun is a static child-friendly web game collection for ages 4-8.
+YapiYapi Fun is a static child-friendly web game collection for kids and families.
 
-The first game is Space Adventure. Children clear meteors, collect star fuel, unlock space knowledge cards, and learn simple AI ideas such as examples, classification, and human guidance.
+The collection includes Space Adventure, Solar System Doodle, and How Deep Is the Sea? Children clear meteors, explore planets, dive a submarine, collect discoveries, and learn simple science ideas through play.
 
 ## Features
 
@@ -28,7 +28,13 @@ http://127.0.0.1:5192/
 Space Adventure is available at:
 
 ```text
-http://127.0.0.1:5192/space-adventure.html
+http://127.0.0.1:5192/games/space-adventure/
+```
+
+How Deep Is the Sea? is available at:
+
+```text
+http://127.0.0.1:5192/games/deep-sea-kids/
 ```
 
 ## Cloudflare Pages

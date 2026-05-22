@@ -12,5 +12,8 @@
 /styles.css
   Cache-Control: public, max-age=31536000, immutable
 
-/solar-system/assets/*
+/games/solar-system/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/games/deep-sea-kids/assets/*
   Cache-Control: public, max-age=31536000, immutable

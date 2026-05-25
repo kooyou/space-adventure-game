@@ -526,6 +526,13 @@ button {
   font-size: 0.86rem;
 }
 
+.mission-note {
+  margin: -2px 0 8px;
+  color: rgba(248, 251, 255, 0.62);
+  font-size: 0.74rem;
+  line-height: 1.35;
+}
+
 .mini-mission meter {
   grid-column: 1 / -1;
   width: 100%;
@@ -2615,7 +2622,7 @@ button {
 .v2-depth-bg.shallow {
   background:
     linear-gradient(180deg, rgba(80, 216, 244, 0.03), rgba(8, 125, 184, 0.04)),
-    url("./assets/backgrounds/shallow-ocean-v2.webp") center center / cover no-repeat;
+    url("./assets/backgrounds/shallow-ocean-v2.png") center center / cover no-repeat;
   opacity: var(--bg-shallow, 1);
 }
 

@@ -339,8 +339,9 @@ const missions = [
 const paintJobs = [
   { id: "sun", name: "阳光黄", top: "#ffd34d", bottom: "#f59b1a", need: 0 },
   { id: "coral", name: "珊瑚粉", top: "#ff91b5", bottom: "#e64b86", need: 3 },
-  { id: "mint", name: "海草绿", top: "#7ff0b6", bottom: "#21a779", need: 6 },
-  { id: "glow", name: "夜光蓝", top: "#7fe8ff", bottom: "#1a68d8", need: 10 },
+  { id: "ocean", name: "海蓝涂装", top: "#8df4ff", bottom: "#1776d2", need: 6, chapter: "blue-team" },
+  { id: "mint", name: "海草绿", top: "#7ff0b6", bottom: "#21a779", need: 8 },
+  { id: "glow", name: "夜光蓝", top: "#7fe8ff", bottom: "#1a68d8", need: 9, chapter: "twilight-team" },
   { id: "abyss", name: "深海紫", top: "#b792ff", bottom: "#5930a8", need: 14 }
 ];
 
@@ -358,8 +359,18 @@ const chapters = [
     name: "蓝色海小队",
     badge: "蓝色海徽章",
     creatureIds: ["dolphin", "shark", "lanternfish"],
+    paintReward: "ocean",
     completeTitle: "蓝色海探索完成！",
-    completeText: "你认识了会用声音交流的海豚、敏锐的鲨鱼和发光的灯笼鱼，获得蓝色海徽章。更暗的暮光区正在等你。"
+    completeText: "你认识了会用声音交流的海豚、敏锐的鲨鱼和发光的灯笼鱼，获得蓝色海徽章，并解锁海蓝涂装。更暗的暮光区正在等你。"
+  },
+  {
+    id: "twilight-team",
+    name: "暮光区小队",
+    badge: "暮光区徽章",
+    creatureIds: ["barreleye", "sperm-whale", "anglerfish"],
+    paintReward: "glow",
+    completeTitle: "暮光区探索完成！",
+    completeText: "你观察了透明头部的桶眼鱼、会深潜的抹香鲸和带着小灯的鮟鱇鱼，获得暮光区徽章，并解锁夜光蓝涂装。"
   }
 ];
 
@@ -669,22 +680,43 @@ function getChapterLesson(creature) {
     },
     dolphin: {
       label: "1/3 回声探索",
-      done: "回声探索完成！",
+      done: "发现海豚回声！",
       approachHint: "到蓝色海，先用声呐找到海豚",
       captain: "蓝色海小队开始啦。海豚会用声音交流，先用声呐找到它。"
     },
     shark: {
       label: "2/3 稳定靠近",
-      done: "靠近训练完成！",
+      done: "稳定靠近成功！",
       approachHint: "慢慢驾驶潜艇贴近鲨鱼",
       captain: "鲨鱼很敏锐。慢慢驾驶潜艇靠近它，别只停在远处扫描。",
       requiresNear: true
     },
     lanternfish: {
       label: "3/3 暗处观察",
-      done: "暗处观察完成！",
+      done: "发现灯笼鱼微光！",
       approachHint: "靠近灯笼鱼，再打开探照灯观察",
       captain: "更深处开始变暗了。靠近灯笼鱼，试试用探照灯观察发光生物。",
+      requiresNear: true,
+      needsLight: true
+    },
+    barreleye: {
+      label: "1/3 向上观察",
+      done: "发现透明头部！",
+      approachHint: "靠近桶眼鱼，观察它向上看的眼睛",
+      captain: "暮光区很安静。桶眼鱼会向上看，寻找从上方经过的影子。",
+      requiresNear: true
+    },
+    "sperm-whale": {
+      label: "2/3 深潜声音",
+      done: "听见深潜回声！",
+      approachHint: "用声呐追踪抹香鲸",
+      captain: "抹香鲸会潜到很深的地方寻找乌贼。用声呐追踪它的声音。"
+    },
+    anglerfish: {
+      label: "3/3 发光诱饵",
+      done: "发现深海小灯！",
+      approachHint: "靠近鮟鱇鱼，打开探照灯观察",
+      captain: "鮟鱇鱼头上的小灯像诱饵。靠近它，再打开探照灯看清楚。",
       requiresNear: true,
       needsLight: true
     }
@@ -917,9 +949,17 @@ function checkChapterCompletion(delay = 450) {
   const activeChapter = chapter && getChapterProgress(chapter).complete ? chapter : chapters.find((item) => getChapterProgress(item).complete && !state.badges.has(item.id));
   if (activeChapter && !state.badges.has(activeChapter.id)) {
     state.badges.add(activeChapter.id);
+    applyChapterReward(activeChapter);
     saveProgress();
     window.setTimeout(() => showChapterReward(activeChapter), delay);
   }
+}
+
+function applyChapterReward(chapter) {
+  if (!chapter.paintReward) return;
+  state.paint = chapter.paintReward;
+  applyPaint();
+  showToast(`解锁潜艇涂装：${getCurrentPaint().name}`);
 }
 
 function showChapterReward(chapter = firstChapter) {
@@ -1399,7 +1439,9 @@ function checkMissions() {
 }
 
 function renderMiniMissions() {
-  elements.miniMissionList.innerHTML = missions
+  elements.miniMissionList.innerHTML = `
+    <p class="mission-note">辅助挑战，不影响小队主线</p>
+    ${missions
     .map((mission) => {
       const progress = Math.min(getMissionProgress(mission), mission.requiredCount);
       const done = state.completed.has(mission.id);
@@ -1411,7 +1453,8 @@ function renderMiniMissions() {
         </div>
       `;
     })
-    .join("");
+    .join("")}
+  `;
 }
 
 function renderChapterProgress() {
@@ -1475,10 +1518,14 @@ function applyPaint() {
 }
 
 function unlockPaintIfReady() {
-  const newlyAvailable = paintJobs.find((paint) => paint.need === state.discovered.size && paint.id !== state.paint);
+  const newlyAvailable = paintJobs.find((paint) => isPaintUnlocked(paint) && paint.need === state.discovered.size && paint.id !== state.paint);
   if (newlyAvailable) {
     showToast(`解锁潜艇涂装：${newlyAvailable.name}`);
   }
+}
+
+function isPaintUnlocked(paint) {
+  return state.discovered.size >= paint.need || (paint.chapter && state.badges.has(paint.chapter));
 }
 
 function renderPaintPanel() {
@@ -1490,11 +1537,11 @@ function renderPaintPanel() {
     <div class="card-grid">
       ${paintJobs
         .map((paint) => {
-          const unlocked = state.discovered.size >= paint.need;
+          const unlocked = isPaintUnlocked(paint);
           return `
             <article class="book-card ${unlocked ? "" : "locked"}">
               <strong>${paint.name}</strong>
-              <p>${unlocked ? "已解锁" : `发现 ${paint.need} 个朋友解锁`}</p>
+              <p>${unlocked ? "已解锁" : paint.chapter ? "完成蓝色海小队解锁" : `发现 ${paint.need} 个朋友解锁`}</p>
               <button type="button" data-paint="${paint.id}" ${unlocked ? "" : "disabled"}>${state.paint === paint.id ? "使用中" : "使用"}</button>
             </article>
           `;
@@ -1520,7 +1567,8 @@ function renderMissions() {
   closePanels(elements.missionPanel);
   elements.missionPanel.hidden = false;
   elements.missionPanel.innerHTML = `
-    <h2>今日任务</h2>
+    <h2>辅助挑战</h2>
+    <p>这些挑战会给额外贴纸和徽章，不影响当前小队主线。</p>
     ${missions
       .map((mission) => {
         const progress = Math.min(getMissionProgress(mission), mission.requiredCount);

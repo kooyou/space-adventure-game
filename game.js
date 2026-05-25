@@ -4,6 +4,8 @@ const overlayStart = document.querySelector("#overlayStart");
 const rocket = document.querySelector("#rocket");
 const planet = document.querySelector("#planet");
 const planetLabel = document.querySelector("#planetLabel");
+const spaceBuddy = document.querySelector("#spaceBuddy");
+const buddyBubble = document.querySelector("#buddyBubble");
 const startGameButton = document.querySelector("#startGame");
 const pauseButton = document.querySelector("#pauseButton");
 const nextButton = document.querySelector("#nextButton");
@@ -208,8 +210,8 @@ const levels = Array.from({ length: 30 }, (_, index) => {
   const challenge = challengeTypes[index % challengeTypes.length];
   const simultaneous = Math.min(3 + Math.floor(index / 3) + (challenge.key === "swarm" || challenge.key === "orbit" ? 1 : 0), 10);
   const target = 5 + Math.floor(index / 2) + (challenge.key === "swarm" || challenge.key === "orbit" ? 2 : 0);
-  const speed = Math.max(3600, 13200 - index * 330 - (challenge.key === "swarm" || challenge.key === "orbit" ? 650 : 0));
-  const spawn = Math.max(420, 2400 - index * 62 - (challenge.key === "swarm" || challenge.key === "orbit" ? 260 : 0));
+  const speed = Math.max(4400, 14200 - index * 270 - (challenge.key === "swarm" || challenge.key === "orbit" ? 420 : 0));
+  const spawn = Math.max(620, 2600 - index * 48 - (challenge.key === "swarm" || challenge.key === "orbit" ? 180 : 0));
   const starTarget = challenge.key === "fuel" || challenge.key === "collector"
     ? 5 + Math.floor(index / 6)
     : 3 + Math.floor(index / 10);
@@ -228,7 +230,7 @@ const levels = Array.from({ length: 30 }, (_, index) => {
     simultaneous,
     starTarget,
     maxStars,
-    starEvery: Math.max(520, 1400 - index * 24),
+    starEvery: Math.max(700, 1550 - index * 18),
     adAfter: false,
   };
 });
@@ -248,6 +250,16 @@ let flamePower = 1;
 let tapCombo = 0;
 let launchTimer = 0;
 let starTimer = 0;
+let audioContext = null;
+let buddyTipIndex = 0;
+
+const buddyTips = [
+  "Tap big glowing rocks!",
+  "Grab stars for flame!",
+  "Look left and right!",
+  "Touch the planet!",
+  "Great space focus!",
+];
 
 const meteorLanes = [
   { edge: "right", x: [0.78, 0.94], y: [-0.08, 0.16], aimX: [-34, 36], aimY: [-18, 46] },
@@ -267,6 +279,69 @@ function speak(text) {
   utterance.lang = "en-US";
   utterance.rate = 0.86;
   window.speechSynthesis.speak(utterance);
+}
+
+function getAudioContext() {
+  if (!soundOn || (!window.AudioContext && !window.webkitAudioContext)) {
+    return null;
+  }
+
+  if (!audioContext) {
+    const AudioCtor = window.AudioContext || window.webkitAudioContext;
+    audioContext = new AudioCtor();
+  }
+
+  if (audioContext.state === "suspended") {
+    audioContext.resume();
+  }
+
+  return audioContext;
+}
+
+function playTone(frequency, duration = 0.16, type = "sine", gainValue = 0.08, delay = 0) {
+  const context = getAudioContext();
+  if (!context) {
+    return;
+  }
+
+  const start = context.currentTime + delay;
+  const oscillator = context.createOscillator();
+  const gain = context.createGain();
+  oscillator.type = type;
+  oscillator.frequency.setValueAtTime(frequency, start);
+  gain.gain.setValueAtTime(0.0001, start);
+  gain.gain.exponentialRampToValueAtTime(gainValue, start + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+  oscillator.connect(gain);
+  gain.connect(context.destination);
+  oscillator.start(start);
+  oscillator.stop(start + duration + 0.03);
+}
+
+function playSound(name) {
+  if (!soundOn) {
+    return;
+  }
+
+  if (name === "launch") {
+    playTone(140, 0.34, "sawtooth", 0.055);
+    playTone(220, 0.28, "triangle", 0.045, 0.12);
+  } else if (name === "meteor") {
+    playTone(520, 0.11, "square", 0.045);
+    playTone(760, 0.12, "triangle", 0.04, 0.06);
+  } else if (name === "star") {
+    playTone(660, 0.11, "sine", 0.05);
+    playTone(980, 0.14, "sine", 0.045, 0.08);
+  } else if (name === "planet") {
+    playTone(360, 0.16, "triangle", 0.05);
+    playTone(540, 0.18, "sine", 0.045, 0.12);
+  } else if (name === "success") {
+    playTone(520, 0.12, "sine", 0.055);
+    playTone(720, 0.12, "sine", 0.055, 0.1);
+    playTone(960, 0.18, "triangle", 0.055, 0.22);
+  } else if (name === "bump") {
+    playTone(120, 0.18, "sawtooth", 0.055);
+  }
 }
 
 function randomBetween(min, max) {
@@ -398,11 +473,12 @@ function setKnowledgeCardOverlay(level) {
       ${renderCardVisual(level)}
       <span class="card-fact">${level.funFact}</span>
       <span class="card-ai">${level.aiIdea}</span>
-      <span class="card-stars">Star fuel ${levelStars}/${level.starTarget} · ${isFinal ? "Finish mission" : "Tap card for next level"}</span>
+      <span class="card-stars">Star fuel ${levelStars}/${level.starTarget} - ${isFinal ? "Finish mission" : "Tap card for next level"}</span>
     </button>
   `;
 
   overlay.querySelector(".knowledge-card").addEventListener("click", collectKnowledgeCard);
+  showRewardBurst();
 }
 
 function hideOverlay() {
@@ -424,7 +500,18 @@ function updateStatus() {
 }
 
 function clearMeteors() {
-  stage.querySelectorAll(".meteor, .fuel-star, .float-label, .explosion").forEach((item) => item.remove());
+  stage.querySelectorAll(".meteor, .fuel-star, .float-label, .explosion, .reward-burst").forEach((item) => item.remove());
+}
+
+function setBuddyTip(text) {
+  if (buddyBubble) {
+    buddyBubble.textContent = text;
+  }
+}
+
+function cycleBuddyTip() {
+  setBuddyTip(buddyTips[buddyTipIndex % buddyTips.length]);
+  buddyTipIndex += 1;
 }
 
 function updateLesson(mode = "level") {
@@ -568,11 +655,13 @@ function startLevel() {
   stopCollisionLoop();
   spawnTimer = window.setInterval(() => queueMeteorFill(0), level.spawn);
   starTimer = window.setInterval(queueStarFill, level.starEvery);
+  setBuddyTip(levelIndex === 0 ? "Let's launch!" : "New stop!");
+  playSound("launch");
   launchTimer = window.setTimeout(() => {
     stage.classList.remove("launching");
-    queueMeteorFill(80);
-    queueStarFill(220);
-  }, 2600);
+    queueMeteorFill(180);
+    queueStarFill(420);
+  }, 3300);
   collisionFrame = window.requestAnimationFrame(watchCollisions);
   speak(level.goal);
 }
@@ -668,6 +757,7 @@ function spawnMeteor() {
     </svg>
   `;
   meteor.addEventListener("pointerdown", () => clearMeteor(meteor));
+  meteor.addEventListener("click", () => clearMeteor(meteor));
   meteor.addEventListener("animationend", () => meteorMissed(meteor));
   stage.append(meteor);
 
@@ -712,6 +802,7 @@ function spawnFuelStar() {
     </svg>
   `;
   star.addEventListener("pointerdown", () => collectFuelStar(star));
+  star.addEventListener("click", () => collectFuelStar(star));
   stage.append(star);
 
   window.setTimeout(() => {
@@ -719,7 +810,7 @@ function spawnFuelStar() {
       star.remove();
       queueStarFill(420);
     }
-  }, Math.max(2600, level.speed * 0.48));
+  }, Math.max(3200, level.speed * 0.52));
 }
 
 function collectFuelStar(star) {
@@ -734,6 +825,8 @@ function collectFuelStar(star) {
   starBadges += 1;
   updateStatus();
   updateLesson("star");
+  setBuddyTip("Sparkly fuel!");
+  playSound("star");
   showFloatLabel("Flame fuel +1", starBox.left - stageBox.left, starBox.top - stageBox.top);
   window.setTimeout(() => star.remove(), 420);
   queueStarFill(levelStars >= currentLevel().starTarget ? 0 : 260);
@@ -766,6 +859,29 @@ function showExplosion(x, y) {
   window.setTimeout(() => explosion.remove(), 720);
 }
 
+function showRewardBurst() {
+  const burst = document.createElement("div");
+  const colors = ["#ffe56d", "#48f0ff", "#ff75c8", "#61f28f", "#ffffff"];
+  burst.className = "reward-burst";
+
+  for (let index = 0; index < 28; index += 1) {
+    const piece = document.createElement("span");
+    const isStar = index % 3 === 0;
+    piece.className = isStar ? "reward-star" : "reward-confetti";
+    piece.style.setProperty("--x", `${randomBetween(28, 72)}%`);
+    piece.style.setProperty("--y", `${randomBetween(30, 62)}%`);
+    piece.style.setProperty("--dx", `${randomBetween(-260, 260)}px`);
+    piece.style.setProperty("--dy", `${randomBetween(-210, 170)}px`);
+    piece.style.setProperty("--rot", `${randomBetween(-240, 240)}deg`);
+    piece.style.setProperty("--color", colors[index % colors.length]);
+    piece.style.animationDelay = `${index * 0.025}s`;
+    burst.append(piece);
+  }
+
+  stage.append(burst);
+  window.setTimeout(() => burst.remove(), 1600);
+}
+
 function clearMeteor(meteor) {
   const level = currentLevel();
   if (!running || paused || meteor.classList.contains("pop") || cleared >= level.target) {
@@ -775,6 +891,8 @@ function clearMeteor(meteor) {
   const meteorBox = meteor.getBoundingClientRect();
   const stageBox = stage.getBoundingClientRect();
   showFloatLabel("AI learned +1", meteorBox.left - stageBox.left, meteorBox.top - stageBox.top);
+  playSound("meteor");
+  setBuddyTip(tapCombo % 3 === 2 ? "Combo!" : "Nice tap!");
 
   meteor.classList.add("pop");
   cleared = Math.min(level.target, cleared + 1);
@@ -789,9 +907,9 @@ function clearMeteor(meteor) {
   window.setTimeout(() => meteor.remove(), 430);
 
   if (cleared >= level.target) {
-    window.setTimeout(completeLevel, 520);
+    window.setTimeout(completeLevel, 820);
   } else {
-    queueMeteorFill(30);
+    queueMeteorFill(150);
   }
 }
 
@@ -814,6 +932,8 @@ function meteorHit(meteor) {
   meteor.classList.add("hit");
   stage.classList.add("impact");
   rocket.classList.add("hit");
+  playSound("bump");
+  setBuddyTip("Shield saved us!");
   showExplosion(blastX, blastY);
   window.setTimeout(() => {
     stage.classList.remove("impact");
@@ -846,6 +966,8 @@ function completeLevel() {
   clearMeteors();
 
   setKnowledgeCardOverlay(currentLevel());
+  setBuddyTip("Card time!");
+  playSound("success");
   speak(levelIndex === levels.length - 1 ? "Mission complete!" : "Knowledge card ready!");
 }
 
@@ -892,6 +1014,7 @@ function collectKnowledgeCard() {
   overlay.dataset.action = "none";
   overlay.querySelector(".knowledge-card")?.classList.add("collected");
   showFloatLabel(level.collectText, 360, 120);
+  playSound("success");
 
   window.setTimeout(() => {
     if (levelIndex === levels.length - 1) {
@@ -906,7 +1029,7 @@ function collectKnowledgeCard() {
     }
 
     nextLevel();
-  }, 520);
+  }, 900);
 }
 
 function finishLevelAfterQuiz() {
@@ -967,6 +1090,16 @@ function toggleSound() {
   if (!soundOn && "speechSynthesis" in window) {
     window.speechSynthesis.cancel();
   }
+  if (soundOn) {
+    playSound("star");
+  }
+}
+
+function touchPlanet() {
+  const level = currentLevel();
+  showFloatLabel(`${level.planetName} says hi!`, 0.7 * stage.clientWidth, 0.36 * stage.clientHeight);
+  setBuddyTip("Planet hello!");
+  playSound("planet");
 }
 
 function handleOverlayAction() {
@@ -1004,6 +1137,14 @@ overlay.addEventListener("click", (event) => {
 pauseButton.addEventListener("click", togglePause);
 nextButton.addEventListener("click", nextLevel);
 soundToggle.addEventListener("click", toggleSound);
+planet.addEventListener("pointerdown", touchPlanet);
+planetLabel.addEventListener("pointerdown", touchPlanet);
+if (spaceBuddy) {
+  spaceBuddy.addEventListener("click", () => {
+    cycleBuddyTip();
+    playSound("planet");
+  });
+}
 
 updateStatus();
 setScene();

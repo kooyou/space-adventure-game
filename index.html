@@ -74,6 +74,13 @@
   </head>
   <body>
     <main class="home-app">
+      <span class="page-fish fish-a" aria-hidden="true"></span>
+      <span class="page-fish fish-b" aria-hidden="true"></span>
+      <span class="shooting-star trail-a" aria-hidden="true"></span>
+      <span class="shooting-star trail-b" aria-hidden="true"></span>
+      <button class="home-mascot" type="button" aria-label="Play with YapiYapi mascot">
+        <span class="mascot-face" aria-hidden="true"></span>
+      </button>
       <header class="home-header">
         <a class="home-brand" href="./index.html" aria-label="YapiYapi Fun home">
           <span class="home-logo" aria-hidden="true">Y</span>
@@ -89,12 +96,12 @@
 
       <section class="home-hero" aria-labelledby="homeTitle">
         <div class="home-hero-copy">
-          <p class="eyebrow">Tiny games. Big curiosity.</p>
-          <h1 id="homeTitle">Little web games for curious kids.</h1>
+          <p class="eyebrow">Bright games for little explorers</p>
+          <h1 id="homeTitle"><span>Pick a game.</span><span>Start the adventure.</span></h1>
           <p>
-            YapiYapi Fun is a growing shelf of simple browser games for young children.
-            No login, no chat, no downloads, and no child profile.
+            No login, no chat, no downloads. Just tap and play.
           </p>
+          <a class="hero-play-button" href="#games">Play Now</a>
         </div>
         <div class="home-hero-scene" aria-hidden="true">
           <span class="hero-orbit"></span>
@@ -122,10 +129,10 @@
             />
           </span>
           <span class="tile-body">
-            <span class="tile-kicker">Ages 4-8 / Space + AI</span>
+            <span class="tile-kicker"><span class="age-chip">4-8</span><span>Space + AI</span></span>
             <strong>Space Adventure</strong>
-            <span>Launch a rocket, clear meteors, collect star fuel, and unlock planet knowledge cards.</span>
-            <span class="tile-badge">Ready to play</span>
+            <span>Clear meteors and help the rocket fly.</span>
+            <span class="tile-badge">Play Now</span>
           </span>
         </a>
 
@@ -139,10 +146,10 @@
             />
           </span>
           <span class="tile-body">
-            <span class="tile-kicker">Ages 6-12 / Solar system</span>
+            <span class="tile-kicker"><span class="age-chip">6-12</span><span>Planets</span></span>
             <strong>Solar System Doodle</strong>
-            <span>Tap planets, launch a rocket, complete missions, and collect planet stickers.</span>
-            <span class="tile-badge">Ready to play</span>
+            <span>Tap planets and collect space stickers.</span>
+            <span class="tile-badge">Play Now</span>
           </span>
         </a>
 
@@ -156,42 +163,41 @@
             />
           </span>
           <span class="tile-body">
-            <span class="tile-kicker">Ages 4-8 / Ocean depth</span>
+            <span class="tile-kicker"><span class="age-chip">4-8</span><span>Ocean</span></span>
             <strong>How Deep Is the Sea?</strong>
-            <span>Dive a friendly submarine, scan sea creatures, and learn how ocean depth changes.</span>
-            <span class="tile-badge">Ready to play</span>
+            <span>Dive down and meet sea friends.</span>
+            <span class="tile-badge">Play Now</span>
           </span>
         </a>
       </section>
 
       <section class="home-info">
         <article>
-          <span class="info-icon">01</span>
-          <h2>Made For Kids</h2>
-          <p>Simple controls, large targets, short rounds, and no social features.</p>
+          <span class="info-icon kid-icon" aria-hidden="true"></span>
+          <h2>Easy Tap</h2>
+          <p>Big buttons. Short rounds.</p>
         </article>
         <article>
-          <span class="info-icon">02</span>
-          <h2>Learning Built In</h2>
-          <p>Games teach observation, science facts, and friendly AI concepts through play.</p>
+          <span class="info-icon learn-icon" aria-hidden="true"></span>
+          <h2>Learn While Playing</h2>
+          <p>Space, ocean, and simple science.</p>
         </article>
         <article>
-          <span class="info-icon">03</span>
-          <h2>Ad Care</h2>
-          <p>Ads, when enabled, must stay separate from gameplay and be child-directed where required.</p>
+          <span class="info-icon safe-icon" aria-hidden="true"></span>
+          <h2>Kid-Safe</h2>
+          <p>No login. No chat. No purchases.</p>
         </article>
       </section>
 
       <section class="home-trust" aria-labelledby="trustTitle">
         <div>
           <p class="eyebrow">Parent-friendly by design</p>
-          <h2 id="trustTitle">Built for small tests before big promotion.</h2>
+          <h2 id="trustTitle">Simple games families can try right away.</h2>
         </div>
         <ul>
-          <li>No login, chat, upload, camera, microphone, or in-game purchase.</li>
-          <li>Three playable learning games are live, with more concepts in design.</li>
-          <li>Policy pages explain privacy, ads, parent guidance, and contact details.</li>
-          <li>Ad placements should stay outside active gameplay and use child-directed treatment where required.</li>
+          <li>Three playable games are live.</li>
+          <li>Progress stays in the browser.</li>
+          <li>Policy pages are ready for parents.</li>
         </ul>
       </section>
 
@@ -206,5 +212,39 @@
         <a class="text-link" href="mailto:535826356@qq.com">Contact</a>
       </nav>
     </main>
+    <script>
+      (() => {
+        let audioContext;
+        const playPop = (frequency = 680) => {
+          try {
+            audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            oscillator.type = "sine";
+            oscillator.frequency.value = frequency;
+            gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.035, audioContext.currentTime + 0.01);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.12);
+            oscillator.connect(gain).connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.13);
+          } catch {
+            // Sound is a small bonus; the page should stay quiet if audio is blocked.
+          }
+        };
+
+        document.querySelectorAll(".game-tile").forEach((tile, index) => {
+          tile.addEventListener("pointerenter", () => playPop(620 + index * 90));
+        });
+
+        const mascot = document.querySelector(".home-mascot");
+        mascot?.addEventListener("click", () => {
+          mascot.classList.remove("is-waving");
+          void mascot.offsetWidth;
+          mascot.classList.add("is-waving");
+          playPop(920);
+        });
+      })();
+    </script>
   </body>
 </html>

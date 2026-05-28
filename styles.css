@@ -2358,6 +2358,50 @@ a:focus-visible {
   min-width: 220px;
 }
 
+.passport-panel {
+  min-width: 210px;
+  display: grid;
+  gap: 5px;
+  padding: 10px 12px;
+  border: 2px solid rgb(255 255 255 / 16%);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 10%);
+}
+
+.passport-panel span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.passport-panel strong {
+  color: #fff;
+  font-size: 16px;
+}
+
+.passport-stamps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  min-height: 20px;
+}
+
+.passport-stamp {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(255 255 255 / 72%);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fff8c7, #9df4ff);
+  box-shadow: 0 0 12px rgb(157 244 255 / 28%);
+}
+
+.passport-stamp.empty {
+  background: rgb(255 255 255 / 12%);
+  box-shadow: none;
+}
+
 .mission-text strong {
   display: block;
   margin-top: 3px;
@@ -2380,6 +2424,12 @@ a:focus-visible {
   box-shadow: none;
   color: #fff;
   font-size: 16px;
+}
+
+.controls button:disabled {
+  cursor: default;
+  opacity: 0.54;
+  transform: none;
 }
 
 .info-dock {
@@ -2406,6 +2456,11 @@ a:focus-visible {
   color: #d6e9ff;
   font-weight: 800;
   line-height: 1.38;
+}
+
+.info-dock .parent-summary {
+  margin-top: 10px;
+  color: #fff8c7;
 }
 
 .legal-links {
@@ -2803,6 +2858,10 @@ a:focus-visible {
 
   .controls {
     justify-content: stretch;
+  }
+
+  .passport-panel {
+    min-width: 0;
   }
 
   .controls button {

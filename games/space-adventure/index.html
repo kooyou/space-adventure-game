@@ -18,7 +18,7 @@
     <meta property="og:url" content="https://yapiyapi.fun/games/space-adventure/" />
     <meta name="twitter:card" content="summary" />
     <title>Space Adventure - YapiYapi Fun</title>
-    <link rel="stylesheet" href="/styles.css?v=space-kids-v38" />
+    <link rel="stylesheet" href="/styles.css?v=space-kids-v39" />
   </head>
   <body>
     <main class="game-app">
@@ -28,7 +28,7 @@
             <span class="brand-mark" aria-hidden="true">Y</span>
             <span>Space Adventure</span>
           </a>
-          <div class="version-badge">NEW v38 / Play Polish</div>
+          <div class="version-badge">NEW v39 / Passport</div>
 
           <div class="hud-stats" aria-label="Mission status">
             <div>
@@ -136,7 +136,7 @@
             <div class="overlay-card">
               <p class="eyebrow">Kids Space Learning Game</p>
               <strong>Launch The Rocket</strong>
-              <p>Made for ages 4-8: slow meteors, clear lanes, and 30 short levels that grow step by step.</p>
+              <p>Made for ages 4-8: 3 kid-sized chapters, slow meteors, planet scans, and space passport cards.</p>
               <button id="overlayStart" type="button">Start Mission</button>
             </div>
           </div>
@@ -147,10 +147,15 @@
             <span id="missionName">Launch Pad</span>
             <strong id="missionGoal">Clear 3 slow meteors to lift off safely.</strong>
           </div>
+          <div class="passport-panel" aria-label="Space passport progress">
+            <span id="chapterName">Chapter 1: Launch Crew</span>
+            <strong id="passportSummary">0 cards stamped</strong>
+            <div id="passportStamps" class="passport-stamps" aria-hidden="true"></div>
+          </div>
           <div class="controls">
             <button id="startGame" type="button">Restart</button>
             <button id="pauseButton" type="button">Pause</button>
-            <button id="nextButton" type="button">Next</button>
+            <button id="nextButton" type="button">Next Stop</button>
             <button id="soundToggle" type="button" aria-pressed="true">Sound On</button>
           </div>
         </div>
@@ -163,7 +168,7 @@
         </article>
         <article>
           <h2>Learning Built In</h2>
-          <p>Every level teaches one planet fact and one simple AI idea: examples help AI classify danger.</p>
+          <p>Every level teaches one planet fact and one simple AI idea, then stamps a space passport card.</p>
         </article>
         <article id="privacy">
           <h2>Ad-Friendly Breaks</h2>
@@ -178,6 +183,7 @@
             No account, chat, upload, purchase, or child profile is required.
             <a class="text-link" href="/parents.html">Parent guide</a>
           </p>
+          <p id="parentSummary" class="parent-summary">Session summary appears after the first mission.</p>
         </article>
       </section>
 
@@ -190,6 +196,6 @@
       </nav>
     </main>
 
-    <script src="/game.js?v=space-kids-v38"></script>
+    <script src="/game.js?v=space-kids-v39"></script>
   </body>
 </html>

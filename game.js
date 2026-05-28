@@ -16,6 +16,10 @@ const shieldLabel = document.querySelector("#shieldLabel");
 const badgeLabel = document.querySelector("#badgeLabel");
 const missionName = document.querySelector("#missionName");
 const missionGoal = document.querySelector("#missionGoal");
+const chapterName = document.querySelector("#chapterName");
+const passportSummary = document.querySelector("#passportSummary");
+const passportStamps = document.querySelector("#passportStamps");
+const parentSummary = document.querySelector("#parentSummary");
 const gameTitle = document.querySelector("#gameTitle");
 const aiMessage = document.querySelector("#aiMessage");
 const scienceFact = document.querySelector("#scienceFact");
@@ -204,6 +208,12 @@ const challengeTypes = [
   },
 ];
 
+const chapters = [
+  { name: "Chapter 1: Launch Crew", range: "Stops 1-10", badge: "Launch Crew Badge" },
+  { name: "Chapter 2: Planet Scouts", range: "Stops 11-20", badge: "Planet Scout Badge" },
+  { name: "Chapter 3: Deep Space Team", range: "Stops 21-30", badge: "Deep Space Badge" },
+];
+
 const levels = Array.from({ length: 30 }, (_, index) => {
   const stop = missionStops[index % missionStops.length];
   const levelNumber = index + 1;
@@ -252,6 +262,10 @@ let launchTimer = 0;
 let starTimer = 0;
 let audioContext = null;
 let buddyTipIndex = 0;
+let completedLevels = 0;
+let planetScans = 0;
+let planetTouchedThisLevel = false;
+const stampedCards = new Set();
 
 const buddyTips = [
   "Tap big glowing rocks!",
@@ -354,6 +368,22 @@ function randomFloat(min, max) {
 
 function currentLevel() {
   return levels[levelIndex];
+}
+
+function currentChapter() {
+  return chapters[Math.min(chapters.length - 1, Math.floor(levelIndex / 10))];
+}
+
+function plural(count, singular, pluralWord = `${singular}s`) {
+  return count === 1 ? singular : pluralWord;
+}
+
+function chapterProgress() {
+  const chapterStart = Math.floor(levelIndex / 10) * 10;
+  return {
+    done: Math.min(10, Math.max(0, completedLevels - chapterStart)),
+    total: 10,
+  };
 }
 
 function activeMeteorCount() {
@@ -473,6 +503,7 @@ function setKnowledgeCardOverlay(level) {
       ${renderCardVisual(level)}
       <span class="card-fact">${level.funFact}</span>
       <span class="card-ai">${level.aiIdea}</span>
+      <span class="card-ai">Passport: ${currentChapter().badge}</span>
       <span class="card-stars">Star fuel ${levelStars}/${level.starTarget} - ${isFinal ? "Finish mission" : "Tap card for next level"}</span>
     </button>
   `;
@@ -488,6 +519,8 @@ function hideOverlay() {
 
 function updateStatus() {
   const level = currentLevel();
+  const chapter = currentChapter();
+  const progress = chapterProgress();
   levelLabel.textContent = `${levelIndex + 1} / ${levels.length}`;
   scoreLabel.textContent = `${cleared} / ${level.target}`;
   shieldLabel.textContent = shields;
@@ -496,6 +529,25 @@ function updateStatus() {
   missionGoal.textContent = level.goal;
   gameTitle.textContent = level.challenge.title;
   aiMeterFill.style.width = `${Math.min(100, Math.round((cleared / level.target) * 100))}%`;
+  if (chapterName) {
+    chapterName.textContent = chapter.name;
+  }
+  if (passportSummary) {
+    passportSummary.textContent = `${stampedCards.size} ${plural(stampedCards.size, "card")} stamped - ${progress.done}/${progress.total} this chapter`;
+  }
+  if (passportStamps) {
+    passportStamps.innerHTML = Array.from({ length: progress.total }, (_, index) => (
+      `<span class="passport-stamp ${index < progress.done ? "" : "empty"}"></span>`
+    )).join("");
+  }
+  if (parentSummary) {
+    parentSummary.textContent = completedLevels === 0
+      ? "Session summary appears after the first mission."
+      : `Session: ${completedLevels} ${plural(completedLevels, "mission")} finished, ${stampedCards.size} knowledge ${plural(stampedCards.size, "card")} collected, ${planetScans} planet ${plural(planetScans, "scan")} tried.`;
+  }
+  nextButton.textContent = running ? "Finish Goal" : "Next Stop";
+  nextButton.disabled = running;
+  nextButton.setAttribute("aria-disabled", String(running));
   updateFlamePower();
 }
 
@@ -522,6 +574,7 @@ function updateLesson(mode = "level") {
     meteor: `Good example. AI confidence is ${meter}%. The scanner learns the meteor shape.`,
     combo: `Combo training. You gave the AI ${tapCombo} examples without a miss.`,
     star: `Star fuel collected. Flame power x${flamePower.toFixed(1)}. Bigger flame means more mission energy.`,
+    planet: `${level.planetName} scanned. The AI adds one planet clue to your passport.`,
     hit: "Shield bump. New plan: tap the closest meteor first, then collect stars.",
     ready: "Great training set. The AI can guide the rocket to the next space stop.",
   };
@@ -641,6 +694,7 @@ function startLevel() {
   cleared = 0;
   levelStars = 0;
   tapCombo = 0;
+  planetTouchedThisLevel = false;
   shields = level.shields;
   pauseButton.textContent = "Pause";
   clearMeteors();
@@ -670,6 +724,9 @@ function startMission() {
   levelIndex = 0;
   starBadges = 0;
   levelStars = 0;
+  completedLevels = 0;
+  planetScans = 0;
+  stampedCards.clear();
   flamePower = 1;
   updateFlamePower();
   startLevel();
@@ -964,6 +1021,7 @@ function completeLevel() {
   stopCollisionLoop();
   stage.classList.remove("running", "launching");
   clearMeteors();
+  updateStatus();
 
   setKnowledgeCardOverlay(currentLevel());
   setBuddyTip("Card time!");
@@ -979,6 +1037,7 @@ function failLevel() {
   stopCollisionLoop();
   stage.classList.remove("running", "launching");
   clearMeteors();
+  updateStatus();
   setOverlay(
     "Try Again",
     "The rocket shields need help. Tap meteors early to teach the AI faster.",
@@ -991,6 +1050,7 @@ function failLevel() {
 
 function nextLevel() {
   if (running) {
+    setBuddyTip("Finish the goal first!");
     return;
   }
 
@@ -1009,22 +1069,26 @@ function collectKnowledgeCard() {
   }
 
   const level = currentLevel();
+  const completedChapter = (levelIndex + 1) % 10 === 0;
+  completedLevels = Math.max(completedLevels, levelIndex + 1);
+  stampedCards.add(level.planetName);
   starBadges += 3;
   updateStatus();
   overlay.dataset.action = "none";
   overlay.querySelector(".knowledge-card")?.classList.add("collected");
-  showFloatLabel(level.collectText, 360, 120);
+  showFloatLabel(completedChapter ? currentChapter().badge : level.collectText, 360, 120);
   playSound("success");
 
   window.setTimeout(() => {
     if (levelIndex === levels.length - 1) {
       setOverlay(
         "Mission Complete!",
-        `You collected ${starBadges} stars and 30 knowledge cards. The AI scanner is fully trained.`,
+        `You collected ${starBadges} stars, stamped ${stampedCards.size} space cards, and tried ${planetScans} planet scans. The AI scanner is fully trained.`,
         "",
         "restart",
         "Play Again",
       );
+      updateStatus();
       return;
     }
 
@@ -1097,8 +1161,21 @@ function toggleSound() {
 
 function touchPlanet() {
   const level = currentLevel();
-  showFloatLabel(`${level.planetName} says hi!`, 0.7 * stage.clientWidth, 0.36 * stage.clientHeight);
-  setBuddyTip("Planet hello!");
+  if (running && !paused && !planetTouchedThisLevel) {
+    planetTouchedThisLevel = true;
+    planetScans += 1;
+    starBadges += 1;
+    if (level.challenge.key === "planet") {
+      levelStars = Math.min(level.starTarget, levelStars + 1);
+    }
+    updateStatus();
+    updateLesson("planet");
+    showFloatLabel(`${level.planetName} scan +1`, 0.7 * stage.clientWidth, 0.36 * stage.clientHeight);
+    setBuddyTip("Planet scanned!");
+  } else {
+    showFloatLabel(`${level.planetName} says hi!`, 0.7 * stage.clientWidth, 0.36 * stage.clientHeight);
+    setBuddyTip("Planet hello!");
+  }
   playSound("planet");
 }
 

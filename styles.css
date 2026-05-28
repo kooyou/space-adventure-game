@@ -1429,6 +1429,22 @@ a:focus-visible {
   transform: translateY(0) scale(1);
 }
 
+.planet.visible::before {
+  position: absolute;
+  inset: -16px;
+  border: 3px solid rgb(157 244 255 / 52%);
+  border-radius: 50%;
+  content: "";
+  opacity: 0.9;
+  animation: scanPulse 1.6s ease-in-out infinite;
+}
+
+.stage.planet-scanned .planet.visible::before {
+  border-color: rgb(97 242 143 / 54%);
+  animation: none;
+  opacity: 0.42;
+}
+
 .planet-label {
   position: absolute;
   right: 7%;
@@ -1442,6 +1458,27 @@ a:focus-visible {
   font-weight: 900;
   text-align: center;
   z-index: 3;
+}
+
+.scan-prompt {
+  position: absolute;
+  right: 7%;
+  top: calc(18% + clamp(132px, 15vw, 184px));
+  min-width: 120px;
+  border: 2px solid rgb(255 255 255 / 56%);
+  border-radius: 999px;
+  padding: 7px 12px;
+  color: #07102d;
+  background: linear-gradient(135deg, #fff8c7, #9df4ff);
+  box-shadow: 0 10px 24px rgb(0 0 0 / 18%);
+  font-size: 13px;
+  font-weight: 900;
+  text-align: center;
+  z-index: 3;
+}
+
+.stage.planet-scanned .scan-prompt {
+  background: linear-gradient(135deg, #dcfce7, #9df4ff);
 }
 
 .space-buddy {
@@ -2716,6 +2753,13 @@ a:focus-visible {
   }
 }
 
+@keyframes scanPulse {
+  50% {
+    transform: scale(1.08);
+    opacity: 0.32;
+  }
+}
+
 @keyframes buddyFloat {
   50% {
     transform: translateY(-8px) rotate(-2deg);
@@ -2905,6 +2949,11 @@ a:focus-visible {
   .planet-label {
     right: 6%;
     top: calc(45% + 118px);
+  }
+
+  .scan-prompt {
+    right: 6%;
+    top: calc(45% + 154px);
   }
 
   .info-dock {

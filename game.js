@@ -4,6 +4,7 @@ const overlayStart = document.querySelector("#overlayStart");
 const rocket = document.querySelector("#rocket");
 const planet = document.querySelector("#planet");
 const planetLabel = document.querySelector("#planetLabel");
+const scanPrompt = document.querySelector("#scanPrompt");
 const spaceBuddy = document.querySelector("#spaceBuddy");
 const buddyBubble = document.querySelector("#buddyBubble");
 const startGameButton = document.querySelector("#startGame");
@@ -545,6 +546,10 @@ function updateStatus() {
       ? "Session summary appears after the first mission."
       : `Session: ${completedLevels} ${plural(completedLevels, "mission")} finished, ${stampedCards.size} knowledge ${plural(stampedCards.size, "card")} collected, ${planetScans} planet ${plural(planetScans, "scan")} tried.`;
   }
+  stage.classList.toggle("planet-scanned", planetTouchedThisLevel);
+  if (scanPrompt) {
+    scanPrompt.textContent = planetTouchedThisLevel ? "Planet scanned" : "Tap planet to scan";
+  }
   nextButton.textContent = running ? "Finish Goal" : "Next Stop";
   nextButton.disabled = running;
   nextButton.setAttribute("aria-disabled", String(running));
@@ -1079,6 +1084,18 @@ function collectKnowledgeCard() {
         "Play Again",
       );
       updateStatus();
+      return;
+    }
+
+    if (completedChapter) {
+      setOverlay(
+        currentChapter().badge,
+        `Chapter complete. Your space passport has ${chapterProgress().done}/10 stamps for this crew.`,
+        "",
+        "next",
+        "Next Chapter",
+      );
+      speak(`${currentChapter().badge} earned!`);
       return;
     }
 

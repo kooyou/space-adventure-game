@@ -1949,17 +1949,17 @@ a:focus-visible {
   height: calc(var(--size) * 2.1);
   overflow: visible;
   pointer-events: none;
-  filter: drop-shadow(0 0 22px rgb(255 100 50 / 42%));
+  filter: drop-shadow(0 0 18px rgb(157 244 255 / 24%)) drop-shadow(0 8px 14px rgb(0 0 0 / 24%));
   transform: translate(-50%, -50%);
 }
 
 .meteor-tail {
-  animation: tailPulse 0.22s ease-in-out infinite alternate;
-  transform-origin: 260px 95px;
+  animation: tailPulse 0.9s ease-in-out infinite alternate;
+  transform-origin: 232px 105px;
 }
 
 .meteor-rock {
-  animation: rockHeat 0.7s ease-in-out infinite alternate;
+  animation: rockHeat 1.8s ease-in-out infinite alternate;
 }
 
 .meteor.scan {

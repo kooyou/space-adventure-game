@@ -764,20 +764,14 @@ function spawnMeteor() {
   meteor.innerHTML = `
     <svg class="meteor-svg" viewBox="0 0 360 210" aria-hidden="true">
       <defs>
-        <radialGradient id="meteorRock" cx="34%" cy="26%">
-          <stop offset="0" stop-color="#a48cbb" />
-          <stop offset="0.22" stop-color="#5f4a78" />
-          <stop offset="0.62" stop-color="#29213c" />
-          <stop offset="1" stop-color="#0d0b18" />
-        </radialGradient>
-        <linearGradient id="meteorFlameHot" x1="1" x2="0">
-          <stop offset="0" stop-color="#ff4b1f" />
-          <stop offset="0.34" stop-color="#ff8a1f" />
-          <stop offset="0.7" stop-color="#ffd33d" />
-          <stop offset="1" stop-color="#fff6ad" />
+        <radialGradient id="meteorRock" cx="38%" cy="28%">
+          <stop offset="0" stop-color="#f3e8ff" />
+          <stop offset="0.2" stop-color="#b8a2cf" />
+          <stop offset="0.56" stop-color="#6b5c83" />
+          <stop offset="1" stop-color="#312942" />
         </radialGradient>
         <filter id="meteorGlow">
-          <feGaussianBlur stdDeviation="5" result="blur" />
+          <feGaussianBlur stdDeviation="3.5" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
             <feMergeNode in="SourceGraphic" />
@@ -785,30 +779,26 @@ function spawnMeteor() {
         </filter>
       </defs>
       <g transform="${meteorFlip}">
-        <g class="meteor-tail" filter="url(#meteorGlow)">
-          <path d="M352 26 C302 42 256 68 202 98 C256 86 308 94 354 132 C326 94 326 58 352 26Z" fill="#5a247f" opacity="0.2" />
-          <path d="M330 38 C284 54 238 78 190 107 C244 96 288 105 327 139 C305 106 306 68 330 38Z" fill="#c12d4a" opacity="0.46" />
-          <path d="M308 44 C264 62 220 84 176 112 C224 105 264 113 299 143 C281 112 282 76 308 44Z" fill="#ff4a20" opacity="0.82" />
-          <path d="M282 56 C246 72 210 92 172 116 C211 112 244 121 271 144 C260 117 262 84 282 56Z" fill="#ff981f" opacity="0.96" />
-          <path d="M244 75 C219 88 194 102 168 118 C195 117 217 124 234 140 C229 119 231 94 244 75Z" fill="#ffe15c" opacity="0.92" />
-          <path d="M208 91 C193 99 178 109 164 120 C180 119 192 124 202 134 C200 118 201 104 208 91Z" fill="#fff4ac" opacity="0.76" />
-          <path d="M302 50 C272 69 238 88 199 108" fill="none" stroke="#ffb02e" stroke-width="6" stroke-linecap="round" opacity="0.62" />
-          <path d="M336 46 C300 68 264 91 224 116" fill="none" stroke="#ff6b1c" stroke-width="5" stroke-linecap="round" opacity="0.44" />
-          <path d="M266 96 C235 106 203 114 170 121" fill="none" stroke="#fff2a3" stroke-width="4" stroke-linecap="round" opacity="0.54" />
+        <g class="meteor-tail">
+          <path d="M318 69 C277 72 243 82 203 105 C245 102 279 111 315 134 C294 112 294 91 318 69Z" fill="#8d7cff" opacity="0.16" />
+          <path d="M288 82 C250 84 220 93 184 112 C220 111 251 119 281 137 C266 119 267 98 288 82Z" fill="#48f0ff" opacity="0.2" />
+          <circle cx="260" cy="84" r="4" fill="#d8b5ff" opacity="0.7" />
+          <circle cx="286" cy="126" r="3" fill="#9df4ff" opacity="0.55" />
+          <circle cx="232" cy="128" r="3" fill="#ffffff" opacity="0.45" />
+          <path d="M306 92 C274 100 240 106 202 111" fill="none" stroke="#9df4ff" stroke-width="4" stroke-linecap="round" opacity="0.22" />
         </g>
         <g class="meteor-rock" filter="url(#meteorGlow)">
-          <circle cx="92" cy="110" r="76" fill="#ff8a1f" opacity="0.2" />
-          <circle cx="92" cy="110" r="67" fill="url(#meteorRock)" stroke="#7b4a62" stroke-width="4" />
-          <path d="M145 78 C158 98 158 126 144 146" fill="none" stroke="#ff8a1f" stroke-width="6" stroke-linecap="round" opacity="0.58" />
-          <path d="M35 96 C49 59 88 42 127 55 C90 54 59 72 44 106 C39 104 36 101 35 96Z" fill="#c2a1df" opacity="0.28" />
-          <circle cx="63" cy="83" r="16" fill="#171225" stroke="#5b456f" stroke-width="5" />
-          <circle cx="112" cy="74" r="12" fill="#171225" stroke="#5b456f" stroke-width="4" />
-          <circle cx="122" cy="126" r="20" fill="#171225" stroke="#5b456f" stroke-width="5" />
-          <circle cx="66" cy="137" r="12" fill="#171225" stroke="#5b456f" stroke-width="4" />
-          <circle cx="40" cy="115" r="7" fill="#4d3b61" opacity="0.78" />
-          <circle cx="101" cy="104" r="7" fill="#4d3b61" opacity="0.78" />
-          <path d="M52 61 C39 69 31 81 28 96" fill="none" stroke="#ffd24f" stroke-width="5" stroke-linecap="round" opacity="0.68" />
-          <path d="M144 111 C143 137 127 158 103 169" fill="none" stroke="#0a0711" stroke-width="5" stroke-linecap="round" opacity="0.32" />
+          <path d="M92 42 C120 36 151 50 162 80 C184 100 174 136 149 151 C132 181 91 183 69 161 C39 157 20 132 28 101 C20 75 41 52 67 53 C73 47 81 44 92 42Z" fill="url(#meteorRock)" stroke="#4f4266" stroke-width="5" stroke-linejoin="round" />
+          <path d="M51 94 C57 66 89 51 124 59 C95 58 69 72 58 99 C55 99 53 97 51 94Z" fill="#fff" opacity="0.22" />
+          <path d="M144 83 C157 104 155 130 139 146" fill="none" stroke="#221b31" stroke-width="5" stroke-linecap="round" opacity="0.22" />
+          <path d="M74 55 C62 68 48 72 32 74" fill="none" stroke="#d8b5ff" stroke-width="4" stroke-linecap="round" opacity="0.34" />
+          <path d="M74 165 C95 151 126 158 148 144" fill="none" stroke="#1d1629" stroke-width="4" stroke-linecap="round" opacity="0.24" />
+          <circle cx="67" cy="88" r="14" fill="#2a2238" stroke="#8b7aa5" stroke-width="4" opacity="0.92" />
+          <circle cx="116" cy="80" r="10" fill="#302741" stroke="#8b7aa5" stroke-width="3" opacity="0.86" />
+          <circle cx="126" cy="127" r="18" fill="#261f33" stroke="#7e6d99" stroke-width="4" opacity="0.9" />
+          <circle cx="68" cy="137" r="11" fill="#302741" stroke="#8b7aa5" stroke-width="3" opacity="0.86" />
+          <circle cx="96" cy="111" r="6" fill="#d8b5ff" opacity="0.3" />
+          <circle cx="44" cy="116" r="6" fill="#e9d5ff" opacity="0.28" />
         </g>
       </g>
     </svg>

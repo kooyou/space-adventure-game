@@ -39,6 +39,7 @@ html {
 
 button {
   font: inherit;
+  touch-action: manipulation;
 }
 
 .app {
@@ -1602,7 +1603,7 @@ button {
 }
 
 .creature.discovered .name::after {
-  content: " 已发现";
+  content: " found";
   color: #a7f7c1;
 }
 
@@ -2473,6 +2474,26 @@ button {
   pointer-events: none;
 }
 
+.home-link {
+  position: fixed;
+  z-index: 44;
+  left: 18px;
+  bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 999px;
+  color: #f8fbff;
+  background: rgba(4, 38, 69, 0.64);
+  box-shadow: 0 14px 32px rgba(0, 28, 58, 0.18);
+  font-size: 0.9rem;
+  font-weight: 900;
+  text-decoration: none;
+  backdrop-filter: blur(14px);
+}
+
 .energy-card {
   position: fixed;
   z-index: 41;
@@ -2579,8 +2600,8 @@ button {
 }
 
 .v2-actions button {
-  min-width: 148px;
-  min-height: 58px;
+  min-width: 164px;
+  min-height: 64px;
   border: 0;
   border-radius: 999px;
   color: #073250;
@@ -2853,9 +2874,9 @@ button {
   }
 
   .v2-actions button {
-    min-width: 118px;
-    min-height: 50px;
-    font-size: 1rem;
+    min-width: 132px;
+    min-height: 56px;
+    font-size: 1.05rem;
   }
 
   .v2-home .submarine {
@@ -2964,9 +2985,9 @@ button {
   }
 
   .dive-pad button {
-    min-width: 78px;
-    min-height: 34px;
-    font-size: 0.82rem;
+    min-width: 92px;
+    min-height: 44px;
+    font-size: 0.9rem;
   }
 
   .submarine {
@@ -2983,7 +3004,7 @@ button {
   }
 
   .toolbar button {
-    min-height: 58px;
+    min-height: 64px;
     padding: 6px 4px;
     font-size: 0.76rem;
   }
@@ -3037,6 +3058,15 @@ button {
     transform: none;
   }
 
+  .home-link {
+    left: 10px;
+    bottom: auto;
+    top: 134px;
+    min-height: 40px;
+    padding: 0 12px;
+    font-size: 0.78rem;
+  }
+
   .energy-card meter {
     width: 64px;
   }
@@ -3051,9 +3081,9 @@ button {
   }
 
   .dive-pad button {
-    min-width: 72px;
-    min-height: 34px;
-    font-size: 0.82rem;
+    min-width: 88px;
+    min-height: 44px;
+    font-size: 0.88rem;
   }
 
   .toolbar button span {
@@ -3062,6 +3092,6 @@ button {
 
   .toolbar button {
     grid-template-rows: 24px auto;
-    min-height: 50px;
+    min-height: 58px;
   }
 }

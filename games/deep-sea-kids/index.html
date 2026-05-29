@@ -1,98 +1,99 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="深海小探险是一个纯前端儿童海洋知识探索游戏。"
+      content="How Deep Is the Sea? is a kid-friendly ocean exploration game from YapiYapi Fun."
     />
     <link rel="canonical" href="https://yapiyapi.fun/games/deep-sea-kids/" />
-    <title>深海小探险 - YapiYapi Fun</title>
+    <title>How Deep Is the Sea? - YapiYapi Fun</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <main class="app v2-home">
-      <section class="v2-topbar" aria-label="探险信息">
+      <a class="home-link" href="../../" aria-label="Back to YapiYapi Fun home">YapiYapi Fun</a>
+      <section class="v2-topbar" aria-label="Adventure info">
         <div class="v2-chip">
-          <span>深度</span>
-          <strong id="v2DepthValue">0 米</strong>
+          <span>Depth</span>
+          <strong id="v2DepthValue">0 m</strong>
         </div>
         <div class="v2-goal">
-          <span id="v2ChapterLabel">第一关目标</span>
-          <strong id="v2GoalName">水母</strong>
-          <p id="v2GoalHint">先扫描，找到第一位朋友</p>
+          <span id="v2ChapterLabel">First goal</span>
+          <strong id="v2GoalName">Jellyfish</strong>
+          <p id="v2GoalHint">Scan first, then meet your first friend</p>
         </div>
       </section>
 
-      <section class="energy-card" aria-label="潜艇能量">
-        <span>能量</span>
+      <section class="energy-card" aria-label="Sub energy">
+        <span>Energy</span>
         <meter id="energyMeter" min="0" max="100" value="100"></meter>
         <strong id="energyText">100%</strong>
       </section>
 
-      <section class="v2-actions" aria-label="主要操作">
-        <button id="v2ScanButton" type="button">扫描</button>
-        <button id="v2DiveButton" type="button">下潜</button>
+      <section class="v2-actions" aria-label="Main actions">
+        <button id="v2ScanButton" type="button">Scan</button>
+        <button id="v2DiveButton" type="button">Dive</button>
       </section>
-      <section class="hud" aria-label="探险状态">
+      <section class="hud" aria-label="Adventure status">
         <div>
-          <span class="label">深度</span>
-          <strong id="depthValue">0 米</strong>
+          <span class="label">Depth</span>
+          <strong id="depthValue">0 m</strong>
         </div>
         <div>
-          <span class="label">区域</span>
-          <strong id="zoneName">阳光海</strong>
+          <span class="label">Zone</span>
+          <strong id="zoneName">Sunlight Zone</strong>
         </div>
       </section>
 
       <aside class="zone-card" aria-live="polite">
-        <span class="zone-kicker">当前海层</span>
-        <p id="zoneDescription">这里有很多阳光，海草和珊瑚喜欢这里。</p>
+        <span class="zone-kicker">Current layer</span>
+        <p id="zoneDescription">Bright water, sea grass, and coral make this a friendly place to begin.</p>
       </aside>
 
       <aside class="captain-card" aria-live="polite">
-        <span class="avatar">潜</span>
+        <span class="avatar">CAP</span>
         <div>
-          <strong>小航海员</strong>
-          <p id="captainText">向下滑动，潜艇会带你进入真正的海洋世界。</p>
-          <button id="resetGuideButton" type="button">重玩引导</button>
+          <strong>Captain Pip</strong>
+          <p id="captainText">Slide down and your sub will carry you into the ocean world.</p>
+          <button id="resetGuideButton" type="button">Replay guide</button>
         </div>
       </aside>
 
       <aside id="guideCard" class="guide-card" aria-live="polite" hidden>
         <span id="guideStep">1/4</span>
-        <strong id="guideTitle">先找到第一个朋友</strong>
-        <p id="guideText">跟着小航海员，完成一次真正的深海发现。</p>
+        <strong id="guideTitle">Find your first friend</strong>
+        <p id="guideText">Follow Captain Pip and make a real ocean discovery.</p>
       </aside>
 
       <aside class="next-card" aria-live="polite">
-        <span id="chapterLabel">下一个发现</span>
-        <strong id="nextName">小丑鱼</strong>
-        <p id="nextDistance">再下潜 8 米</p>
+        <span id="chapterLabel">Next discovery</span>
+        <strong id="nextName">Clownfish</strong>
+        <p id="nextDistance">Dive 8 m deeper</p>
         <div class="next-actions">
-          <button id="scanButton" type="button">扫描</button>
-          <button id="nextButton" type="button">前往</button>
+          <button id="scanButton" type="button">Scan</button>
+          <button id="nextButton" type="button">Go</button>
         </div>
       </aside>
 
       <aside class="mini-missions" aria-live="polite">
-        <strong id="chapterTitle">探险进度</strong>
+        <strong id="chapterTitle">Adventure progress</strong>
         <div id="chapterProgress" class="chapter-progress"></div>
         <div id="miniMissionList"></div>
       </aside>
 
       <aside class="sticker-shelf" aria-live="polite">
-        <strong>贴纸</strong>
+        <strong>Stickers</strong>
         <div id="stickerShelf"></div>
       </aside>
 
-      <div class="dive-pad" aria-label="下潜控制">
-        <button id="riseButton" type="button">上浮</button>
-        <button id="diveButton" type="button">下潜</button>
+      <div class="dive-pad" aria-label="Dive controls">
+        <button id="riseButton" type="button">Rise</button>
+        <button id="diveButton" type="button">Dive</button>
       </div>
 
-      <aside class="journey-rail" aria-label="深度旅程">
+      <aside class="journey-rail" aria-label="Depth journey">
         <span style="--mark:0%">0m</span>
         <span style="--mark:20%">1000m</span>
         <span style="--mark:60%">3000m</span>
@@ -100,7 +101,7 @@
         <div id="journeyProgress" class="journey-progress"></div>
       </aside>
 
-      <section id="ocean" class="ocean" aria-label="深海探索场景">
+      <section id="ocean" class="ocean" aria-label="Deep sea exploration scene">
         <div class="v2-depth-bg shallow"></div>
         <div class="v2-depth-bg blue"></div>
         <div class="v2-depth-bg twilight"></div>
@@ -129,11 +130,11 @@
         <div id="sonarRing" class="sonar-ring" aria-hidden="true"></div>
         <div class="bubbles" aria-hidden="true"></div>
         <div id="creatureLayer" class="creature-layer"></div>
-        <div id="submarine" class="submarine" aria-label="小潜艇">
+        <div id="submarine" class="submarine" aria-label="Little submarine">
           <div id="targetArrow" class="target-arrow" aria-hidden="true"></div>
           <div id="pilotPrompt" class="pilot-prompt" hidden>
-            <span id="pilotPromptText">靠近目标</span>
-            <button id="pilotActionButton" type="button">扫描</button>
+            <span id="pilotPromptText">Move closer</span>
+            <button id="pilotActionButton" type="button">Scan</button>
           </div>
           <div class="sub-light"></div>
           <div class="sub-bubble-trail"><span></span><span></span><span></span></div>
@@ -153,12 +154,12 @@
         </div>
       </section>
 
-      <nav class="toolbar" aria-label="工具栏">
-        <button id="collectionButton" type="button"><i>册</i><span>图鉴</span><strong id="bookCount">0/16</strong></button>
-        <button id="missionButton" type="button"><i>星</i><span>任务</span><strong id="missionCount">0/3</strong></button>
-        <button id="labButton" type="button"><i>光</i><span>实验室</span><strong>光线</strong></button>
-        <button id="paintButton" type="button"><i>漆</i><span>涂装</span><strong id="paintName">阳光黄</strong></button>
-        <button id="lightButton" type="button"><i>灯</i><span>探照灯</span><strong>开灯</strong></button>
+      <nav class="toolbar" aria-label="Tools">
+        <button id="collectionButton" type="button"><i>BK</i><span>Book</span><strong id="bookCount">0/16</strong></button>
+        <button id="missionButton" type="button"><i>ST</i><span>Tasks</span><strong id="missionCount">0/3</strong></button>
+        <button id="labButton" type="button"><i>LT</i><span>Lab</span><strong>Light</strong></button>
+        <button id="paintButton" type="button"><i>PT</i><span>Paint</span><strong id="paintName">Sunbeam Yellow</strong></button>
+        <button id="lightButton" type="button"><i>ON</i><span>Light</span><strong>On</strong></button>
       </nav>
 
       <div class="scroll-space" aria-hidden="true"></div>
